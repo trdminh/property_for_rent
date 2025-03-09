@@ -17,3 +17,8 @@ collection = {
     "PropertyForRent": database["PropertyForRent"],
     "HistoryForRent": database["HistoryForRent"],
 }
+
+async def get_document_id(query, collection):
+    result = await collection.find_one(query)  
+    return result["_id"] if result else False  
+
