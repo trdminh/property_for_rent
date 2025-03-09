@@ -36,14 +36,13 @@ def get_script_data(html):
         next_data_json = "Can't find <script> with id='__NEXT_DATA__'."
     return next_data_json
 async def main():
-    urls = ["https://www.domain.com.au/6-20-durham-street-st-lucia-qld-4067-16929329",
-            "https://www.domain.com.au/2-14-seventh-avenue-st-lucia-qld-4067-17447789",
-            "https://www.domain.com.au/57-ironside-st-st-lucia-qld-4067-17440500"]
+    urls = ["https://www.domain.com.au/48-manning-street-south-brisbane-qld-4101-14097344",
+            ]
     results = await get_html(urls)
     for result in results:
         with open("data.json", "w") as f:
             json.dump(
-                [get_script_data(result, url) for url, result in zip(urls, results)], 
+                get_script_data(result), 
                 f, indent=4
             )
 import asyncio

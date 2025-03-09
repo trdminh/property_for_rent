@@ -10,12 +10,10 @@ url = "mongodb+srv://daven:ZDhibXswJ1LIFZx6@cluster0.qxlcce8.mongodb.net/"
 client = AsyncIOMotorClient(url) 
 database = client["aihomesearch"]
 collection = {
-    "Agency" : database["Agency"],
-    "Agent" : database["Agent"],
+    "Agency" : database["AgencyRent"],
+    "Agent" : database["AgentRent"],
     "School" : database["School"],
-    "Image": database["Image"],
-    "ImageSold" : database["ImageSold"],
-    "PropertyForSale" : database["PropertyForSale"],
-    "HistoryForSale" : database["HistoryForSale"],
-    "PropertySold" : database["PropertySold"]
+    "Image": database["ImageRent"],
+    "PropertyForRent": database["PropertyForRent"],
+    "HistoryForRent": database["HistoryForRent"],
 }
