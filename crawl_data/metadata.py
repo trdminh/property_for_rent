@@ -44,7 +44,7 @@ async def access_data(data_json):
     prometa = find_key(data_json, "page")
     return {
         "agency": find_key(rootGraphQuery, "agency"),
-        "agentProfiles" : find_key(rootGraphQuery["listingByIdV2"], "agent"),
+        "agentProfiles" : find_key(rootGraphQuery["listingByIdV2"], "agents"),
         "description" : find_key(rootGraphQuery["listingByIdV2"],"description"),
         "displayableAddress" : find_key(rootGraphQuery["listingByIdV2"],"displayableAddress"),
         "headline" : find_key(rootGraphQuery["listingByIdV2"],"headline"),

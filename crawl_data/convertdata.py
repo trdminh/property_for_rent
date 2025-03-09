@@ -40,17 +40,30 @@ async def get_features(export_data):
         return indoorFeatures, outdoorAmenities
     
 async def get_agents(export_data):
+    if not export_data or "agentProfiles" not in export_data:
+        print("Error: export_data is None or missing 'agentProfiles' key")
+        return []
+
     agents_in = export_data["agentProfiles"]
+    
+    # Debug kiểm tra kiểu dữ liệu
+    print(f"Debug: type(agentProfiles) = {type(agents_in)}")
+    
+    if not isinstance(agents_in, list):  # Nếu không phải danh sách
+        print(f"Error: 'agentProfiles' is not a list, it is {type(agents_in)}")
+        print(f"Value: {agents_in}")  # In giá trị để kiểm tra
+        return []
+
     return [
         {
-            "agentId": agent["agentId"],
-            "email": agent["email"],
-            "firstName": split_full_name(agent["fullName"])[0],
-            "lastName": split_full_name(agent["fullName"])[1],
-            "isActiveProfilePage": agent["isActiveProfilePage"],
-            "phoneNumber": agent["mobileNumber"],
-            "photo": agent["photo"]["url"],
-            "profileUrl": agent["profileUrl"],
+            "agentId": agent.get("agentId", ""),
+            "email": agent.get("email", ""),
+            "firstName": split_full_name(agent.get("fullName", ""))[0],
+            "lastName": split_full_name(agent.get("fullName", ""))[1],
+            "isActiveProfilePage": agent.get("isActiveProfilePage", False),
+            "phoneNumber": agent.get("mobileNumber", ""),
+            "photo": agent.get("photo", {}).get("url", ""),
+            "profileUrl": agent.get("profileUrl", ""),
         }
         for agent in agents_in
     ]
@@ -93,7 +106,6 @@ async def get_property_for_sale(export_data):
             "indoorFeatures": indoorFeatures, "outdoorAmenities": outdoorAmenities, "parking": ["Carport"],
             "roof": ["Other"], "rooms": ["None"], "view": ["None"]
         },
-        "historySale": export_data["historySale"],
         "images": await get_images(export_data),
         "listingOption": export_data["saleInfo"]["listingOption"],
         "postcode": pro_meta.get("postcode", ""),
@@ -139,7 +151,7 @@ async def get_schools(export_data):
 
 async def convert_property(export_data):
     return {
-        "agency": await get_agency(export_data),
+        "agency": await get_agency(export_data["agency"]),
         "agent": await get_agents(export_data),
         "images": await get_images(export_data),
         "propertyForSale": await get_property_for_sale(export_data),
