@@ -181,13 +181,3 @@ class PropertyRentManagement():
         
                 
 
-async def main():
-    url = "https://www.domain.com.au/57-ironside-st-st-lucia-qld-4067-17440500"
-    html = await get_html([url])
-    result = get_script_data(html[0])
-    data = await access_data(result)
-    new_data = await convert_property(data)
-    propertyRent = PropertyRentManagement(new_data)
-    agency_id = await propertyRent.create_property_for_rent(new_data)
-    
-asyncio.run(main())
