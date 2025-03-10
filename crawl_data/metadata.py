@@ -19,8 +19,12 @@ def find_key(data, key_to_find):
                 return result
     return None
 def extract_rent_price(text):
-    match = re.search(r'\$\d+', text)  
-    return int(match.group()[1:]) if match else None  
+    match = re.search(r'\$\s*[\d,]+(?:\.\d+)?', text)  
+    if match:
+        price = match.group().replace("$", "").replace(",", "").strip()  
+        return float(price)  # Chuyển thành float để hỗ trợ số thập phân
+    return None  # Trả về None nếu không tìm thấy giá trị
+
 
 async def getSaleInfo(data_json):
     price = extract_rent_price(find_key(data_json, "price"))

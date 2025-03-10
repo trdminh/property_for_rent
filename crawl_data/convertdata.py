@@ -11,17 +11,17 @@ def split_full_name(full_name):
     name_parts = full_name.strip().split()
     return name_parts[0], " ".join(name_parts[1:]) if len(name_parts) > 1 else None
 
-async def get_agency(agency_data):
+async def get_agency(export_data):
     return {
-        "agencyId": agency_data["agencyId"],
-        "banner": find_key(agency_data["branding"]["banner"], "url"),
-        "contactDetails": agency_data["contactDetails"]["general"]["phone"],
-        "isArchived": agency_data["isArchived"],
-        "logo": find_key(agency_data["branding"]["logo"],"url"),
-        "logosmall": find_key(agency_data["branding"]["logoSmall"],"url"),
-        "name": agency_data["name"],
-        "profileUrl": agency_data["profileUrl"],
-        "website": agency_data["website"],
+        "agencyId": export_data["agency"]["agencyId"],
+        "banner": find_key(export_data["agency"]["branding"]["banner"], "url"),
+        "contactDetails": export_data["agency"]["contactDetails"]["general"]["phone"],
+        "isArchived": export_data["agency"]["isArchived"],
+        "logo": find_key(export_data["agency"]["branding"]["logo"],"url"),
+        "logosmall": find_key(export_data["agency"]["branding"]["logoSmall"],"url"),
+        "name": export_data["agency"]["name"],
+        "profileUrl": export_data["agency"]["profileUrl"],
+        "website": export_data["agency"]["website"],
     }
 
 async def get_features(export_data):
@@ -46,12 +46,9 @@ async def get_agents(export_data):
 
     agents_in = export_data["agentProfiles"]
     
-    # Debug kiểm tra kiểu dữ liệu
-    print(f"Debug: type(agentProfiles) = {type(agents_in)}")
     
-    if not isinstance(agents_in, list):  # Nếu không phải danh sách
+    if not isinstance(agents_in, list): 
         print(f"Error: 'agentProfiles' is not a list, it is {type(agents_in)}")
-        print(f"Value: {agents_in}")  # In giá trị để kiểm tra
         return []
 
     return [
@@ -151,7 +148,7 @@ async def get_schools(export_data):
 
 async def convert_property(export_data):
     return {
-        "agency": await get_agency(export_data["agency"]),
+        "agency": await get_agency(export_data),
         "agent": await get_agents(export_data),
         "images": await get_images(export_data),
         "propertyForSale": await get_property_for_sale(export_data),
