@@ -46,7 +46,7 @@ class AgentRent(BaseModel):
         return data_dict
     
 class School(BaseModel):
-    id: Optional[PyObjectId]        =  Field(default_factory=ObjectId, alias="_id")
+    id: Optional[PyObjectId]        = Field(default_factory=ObjectId, alias="_id")
     address: Optional[str]          = Field(default=None)
     createdAt: datetime             = Field(default=datetime.now())
     distance: Optional[float]       = Field(default=None)
